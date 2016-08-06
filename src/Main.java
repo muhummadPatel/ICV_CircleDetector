@@ -1,8 +1,8 @@
 import javax.swing.*;
 
-public class Main{
+public class Main {
 
-    private static void createAndShowGUI(){
+    private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Circle Detector");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,10 +19,10 @@ public class Main{
         frame.setVisible(true);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //Invoke createAndShowGUI as a job for the EDT
-        javax.swing.SwingUtilities.invokeLater(new Runnable(){
-            public void run(){
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
                 createAndShowGUI();
             }
         });
