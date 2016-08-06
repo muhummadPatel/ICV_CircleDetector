@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.IOException;
 
 public class Main {
 
@@ -8,7 +9,20 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel rootPanel = new JPanel(); //Add everything to the rootPanel
 
-        JLabel label = new JLabel("Hello World");
+
+        //Load an image and display it
+        icvImage img = null;
+        try {
+            img = new icvImage("./img/testseq100000.gif");
+        } catch(IOException e) {
+            JOptionPane.showMessageDialog(frame, "Error loading Image:\n" + e.getMessage());
+
+        }
+        if (img == null) {
+            System.exit(0);
+        }
+
+        JLabel label = new JLabel(new ImageIcon(img.getBufferedImage()));
         rootPanel.add(label);
 
         frame.getContentPane().add(rootPanel);
