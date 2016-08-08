@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -15,12 +16,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main implements ActionListener {
 
-    private JFrame frame;
-    private JMenu fileMenu;
-    private JMenuBar menuBar;
-    private JMenuItem openItem;
-    private JPanel rootPanel;
-    private JTabbedPane imagePanel;
+    JButton detectEdgesButton;
+    JFrame frame;
+    JMenu fileMenu;
+    JMenuBar menuBar;
+    JMenuItem openItem;
+    JPanel rootPanel;
+    JPanel controlPanel;
+    JPanel originalImageTab;
+    JPanel edgeImageTab;
+    JPanel circlesImageTab;
+    JTabbedPane imagePanel;
 
     public Main() {
         //Invoke createAndShowGUI as a job for the EDT
@@ -57,9 +63,25 @@ public class Main implements ActionListener {
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
 
-        //Image Panel=====
+        //Tabbed Image Panel=====
         imagePanel = new JTabbedPane();
         rootPanel.add(imagePanel, BorderLayout.CENTER);
+        originalImageTab = new JPanel();
+        edgeImageTab = new JPanel();
+        circlesImageTab = new JPanel();
+
+        imagePanel.addTab("Original Image", originalImageTab);
+        imagePanel.addTab("Detected Edges", edgeImageTab);
+        imagePanel.addTab("Detected Circles", circlesImageTab);
+
+
+        //Control Panel=====
+        controlPanel = new JPanel();
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+
+        detectEdgesButton = new JButton("Detect Edges");
+        controlPanel.add(detectEdgesButton);
+        rootPanel.add(controlPanel, BorderLayout.LINE_START);
 
 
         //Add root panel to frame and display=====
@@ -74,29 +96,7 @@ public class Main implements ActionListener {
         System.out.println("Main:actionPerformed handling event with actionCommand=" + actionCommand);
 
         if (e.getSource() == openItem) {
-            JFileChooser fileChooser = new JFileChooser();
-            //Only allow user to open image files that we know how to load
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.setFileFilter(new FileNameExtensionFilter("Images", ImageIO.getReaderFileSuffixes()));
-
-            int returnVal = fileChooser.showOpenDialog(null);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                String filename = fileChooser.getSelectedFile().getAbsolutePath();
-                System.out.println(">Opening image: " + filename);
-
-                JLabel imageLabel = new JLabel(new ImageIcon(icvController.openImage(filename)));
-                JPanel imageTab = new JPanel();
-                imageTab.add(imageLabel);
-                imageTab.revalidate();
-
-                imagePanel.addTab("Original Image", imageTab);
-                imagePanel.revalidate();
-
-                frame.pack();
-                System.out.println("Done");
-
-            }
-
+            icvController.handle_openItem(this);
         }
     }
 }
