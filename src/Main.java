@@ -80,7 +80,9 @@ public class Main implements ActionListener {
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 
         detectEdgesButton = new JButton("Detect Edges");
+        detectEdgesButton.addActionListener(this);
         controlPanel.add(detectEdgesButton);
+
         rootPanel.add(controlPanel, BorderLayout.LINE_START);
 
 
@@ -97,6 +99,8 @@ public class Main implements ActionListener {
 
         if (e.getSource() == openItem) {
             icvController.handle_openItem(this);
+        } else if (e.getSource() == detectEdgesButton) {
+            icvController.handle_detectEdgesButton(this);
         }
     }
 }

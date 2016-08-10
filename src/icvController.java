@@ -13,6 +13,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.imageio.ImageIO;
 
 public class icvController{
+    public static BufferedImage originalImage = null;
+    public static BufferedImage edgeImage = null;
 
     public static void handle_openItem(Main parent) {
         JFileChooser fileChooser = new JFileChooser();
@@ -27,15 +29,17 @@ public class icvController{
 
             ImageIcon imageIcon;
             try {
-                BufferedImage bufferedImage = icvImageLoader.loadImage(filename);
-                imageIcon = new ImageIcon(bufferedImage);
+                originalImage = icvImageLoader.loadImage(filename);
+                imageIcon = new ImageIcon(originalImage);
             } catch (IOException e) {
                 System.out.println("icvController:openImage Could not open image - " + filename + "\n>" + e.getMessage());
                 JOptionPane.showMessageDialog(null, "Sorry, image could not be opened.\nSee console output for errors.");
+                originalImage = null;
                 return;
             }
 
             JLabel imageLabel = new JLabel(imageIcon);
+            parent.originalImageTab.removeAll();
             parent.originalImageTab.add(imageLabel);
             parent.originalImageTab.revalidate();
             parent.imagePanel.revalidate();
@@ -43,5 +47,22 @@ public class icvController{
 
             System.out.println("Done");
         }
+    }
+
+    public static void handle_detectEdgesButton(Main parent) {
+        if (originalImage == null) {
+            JOptionPane.showMessageDialog(null, "Please open an image before trying to detect edges.");
+            return;
+        }
+
+        edgeImage = icvEdgeDetector.detectEdges(originalImage);
+        JLabel imageLabel = new JLabel(new ImageIcon(edgeImage));
+        parent.edgeImageTab.removeAll();
+        parent.edgeImageTab.add(imageLabel);
+        parent.edgeImageTab.revalidate();
+        parent.imagePanel.revalidate();
+        parent.frame.pack();
+
+        System.out.println("Done");
     }
 }
