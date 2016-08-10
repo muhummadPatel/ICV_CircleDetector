@@ -1,6 +1,9 @@
 package src;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.color.ColorSpace;
+import java.awt.Color;
 
 public class icvEdgeDetector {
 
@@ -9,6 +12,94 @@ public class icvEdgeDetector {
         //Use sobel filter to detect the edges in the image.
         //Return a new BufferedImage with only edge pixels and bg pixels.
         //DONT touch the input image img!
-        return null;
+
+        int[][] gx = {
+            {-1,  0,  1},
+            {-2,  0,  2},
+            {-1,  0,  1}
+        };
+
+        int[][] gy = {
+            {-1, -2, -1},
+            { 0,  0,  0},
+            { 1,  2,  1}
+        };
+
+        double[][] pixels = new double[img.getWidth()][img.getHeight()];
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                int rgb = img.getRGB(x, y);
+                int r = (rgb >> 16) & 0xFF;
+                int g = (rgb >> 8) & 0xFF;
+                int b = (rgb & 0xFF);
+
+                double gray = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+                pixels[x][y] = gray;
+            }
+        }
+
+        //For each pixel at (x,y):
+        double[][] newPixels = new double[img.getWidth()][img.getHeight()];
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+
+                double xGradMagnitude = 0;
+                //Perform Gx convolution
+                for (int xOff = -1; xOff < 2; xOff++) {
+                    for (int yOff = -1; yOff < 2; yOff++) {
+                        int pixX = x + xOff;
+                        int pixY = y + yOff;
+
+                        int kerX = xOff + 1;
+                        int kerY = yOff + 1;
+
+                        try {
+                            xGradMagnitude += (pixels[pixX][pixY] * gx[kerX][kerY]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            //TODO: Reflect values around the boundaries instead?
+                            xGradMagnitude += 0;
+                        }
+                    }
+                }
+
+                double yGradMagnitude = 0;
+                //Perform Gy convolution
+                for (int xOff = -1; xOff < 2; xOff++) {
+                    for (int yOff = -1; yOff < 2; yOff++) {
+                        int currX = x + xOff;
+                        int currY = y + yOff;
+
+                        int kerX = xOff + 1;
+                        int kerY = yOff + 1;
+
+                        try {
+                            yGradMagnitude += (pixels[currX][currY] * gy[kerX][kerY]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            //TODO: Reflect values around the boundaries instead?
+                            yGradMagnitude += 0;
+                        }
+                    }
+                }
+
+                double grad = Math.sqrt(Math.pow(xGradMagnitude, 2) + Math.pow(yGradMagnitude, 2));
+                newPixels[x][y] = grad;
+            }
+        }
+
+        //Generate the edgeImage
+        BufferedImage edgeImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        int threshold = 200; //TODO: get this value from the UI (slider maybe)
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+
+                if (newPixels[x][y] > -1 * threshold && newPixels[x][y] < threshold) {
+                    edgeImage.setRGB(x, y, Color.WHITE.getRGB());
+                } else {
+                    edgeImage.setRGB(x, y, Color.BLACK.getRGB());
+                }
+            }
+        }
+
+        return edgeImage;
     }
 }
