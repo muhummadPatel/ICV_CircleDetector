@@ -1,5 +1,6 @@
 /.idea
 /img
+*.png
 
 *.class
 
