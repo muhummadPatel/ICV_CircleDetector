@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 public class icvController{
     public static BufferedImage originalImage = null;
     public static BufferedImage edgeImage = null;
+    public static BufferedImage circleImage = null;
 
     public static void handle_openItem(Main parent) {
         JFileChooser fileChooser = new JFileChooser();
@@ -62,6 +63,23 @@ public class icvController{
         parent.edgeImageTab.revalidate();
         parent.imagePanel.revalidate();
         parent.frame.pack();
+
+        System.out.println("Done");
+    }
+
+    public static void handle_detectCirclesButton(Main parent) {
+        if (originalImage == null || edgeImage == null) {
+            JOptionPane.showMessageDialog(null, "Please open an image and detect edges before trying to detect circles.");
+            return;
+        }
+
+        circleImage = icvFeatureDetector.detectCircles(edgeImage);
+        // JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
+        // parent.circlesImageTab.removeAll();
+        // parent.circlesImageTab.add(imageLabel);
+        // parent.circlesImageTab.revalidate();
+        // parent.imagePanel.revalidate();
+        // parent.frame.pack();
 
         System.out.println("Done");
     }
