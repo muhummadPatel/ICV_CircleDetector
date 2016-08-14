@@ -73,13 +73,13 @@ public class icvController{
             return;
         }
 
-        circleImage = icvFeatureDetector.detectCircles(edgeImage);
-        // JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
-        // parent.circlesImageTab.removeAll();
-        // parent.circlesImageTab.add(imageLabel);
-        // parent.circlesImageTab.revalidate();
-        // parent.imagePanel.revalidate();
-        // parent.frame.pack();
+        circleImage = icvFeatureDetector.detectCircles(edgeImage, originalImage);
+        JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
+        parent.circlesImageTab.removeAll();
+        parent.circlesImageTab.add(imageLabel);
+        parent.circlesImageTab.revalidate();
+        parent.imagePanel.revalidate();
+        parent.frame.pack();
 
         System.out.println("Done");
     }
