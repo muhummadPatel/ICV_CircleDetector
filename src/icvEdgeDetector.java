@@ -38,6 +38,41 @@ public class icvEdgeDetector {
             }
         }
 
+        //gaussian smooth
+        double[][] smoothedPixels = new double[img.getWidth()][img.getHeight()];
+        double[][] gaussian = {
+            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765},
+            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
+            {0.023792, 0.094907, 0.150342, 0.094907, 0.023792},
+            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
+            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765}
+        };
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+
+                double smoothed = 0;
+                for (int xOff = -2; xOff < 3; xOff++) {
+                    for (int yOff = -2; yOff < 3; yOff++) {
+                        int pixX = x + xOff;
+                        int pixY = y + yOff;
+
+                        int kerX = xOff + 1;
+                        int kerY = yOff + 1;
+
+                        try {
+                            smoothed += (pixels[pixX][pixY] * gaussian[kerX][kerY]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            //TODO: Reflect values around the boundaries instead?
+                            smoothed += 0;
+                        }
+                    }
+                }
+
+                smoothedPixels[x][y] = smoothed;
+            }
+        }
+        pixels = smoothedPixels;
+
         //For each pixel at (x,y):
         double[][] newPixels = new double[img.getWidth()][img.getHeight()];
         for (int x = 0; x < img.getWidth(); x++) {
