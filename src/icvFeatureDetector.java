@@ -29,19 +29,19 @@ public class icvFeatureDetector {
             }
         }
 
-        int minRadius = 10;
+        int minRadius = 15;
         int maxRadius = 200;
         int radiusStep = 5;
         int numRFrames = (maxRadius - minRadius) / radiusStep;
         int[][][] accumulator = new int[numRFrames][img.getWidth()][img.getHeight()];
 
-        for (int rIdx = 1; rIdx < numRFrames; rIdx++) {
+        for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
                     if (pixels[x][y] == 0) {
                         //Edge pixel
                         //System.out.println(">>" + numRFrames + " " + rIdx + " " + (rIdx * radiusStep));
-                        drawCircle(x, y, rIdx * radiusStep, accumulator[rIdx]);
+                        drawCircle(x, y, rIdx * radiusStep + minRadius, accumulator[rIdx]);
                     }
                 }
             }
@@ -56,7 +56,7 @@ public class icvFeatureDetector {
             {0.003765, 0.015019, 0.023792, 0.015019, 0.003765}
         };
         int[][][] smoothedAccum = new int[numRFrames][img.getWidth()][img.getHeight()];
-        for (int rIdx = 1; rIdx < numRFrames; rIdx++) {
+        for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
 
@@ -87,13 +87,13 @@ public class icvFeatureDetector {
 
         ArrayList<Circle> circles = new ArrayList<>();
         float thresh = 2.0f;
-        for (int rIdx = 1; rIdx < numRFrames; rIdx++) {
+        for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
 
                     int curr = accumulator[rIdx][x][y];
 
-                    if (curr < (thresh * (rIdx * radiusStep))) {
+                    if (curr < (thresh * (rIdx * radiusStep + minRadius))) {
                         continue;
                     }
 
@@ -135,7 +135,7 @@ public class icvFeatureDetector {
                     }
 
                     if (currIsLocalMaximum) {
-                        circles.add(new Circle(x, y, (rIdx * radiusStep), curr));
+                        circles.add(new Circle(x, y, (rIdx * radiusStep + minRadius), curr));
                     }
                 }
             }
@@ -147,7 +147,7 @@ public class icvFeatureDetector {
         // }
         System.out.println("CIRCLES FOUND:_____" + circles.size());
 
-        for (int rIdx = 1; rIdx < numRFrames; rIdx++) {
+        for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             BufferedImage accumImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
@@ -162,10 +162,10 @@ public class icvFeatureDetector {
 
             //TODO: Let the user control whether to write this out through the UI or not
             try {
-                File outputfile = new File((rIdx * radiusStep) + "R_accum.png");
+                File outputfile = new File((rIdx * radiusStep + minRadius) + "R_accum.png");
                 ImageIO.write(accumImage, "png", outputfile);
             } catch (IOException e) {
-                System.out.println("Error saving accum: " + (rIdx * radiusStep));
+                System.out.println("Error saving accum: " + (rIdx * radiusStep + minRadius));
             }
         }
 
