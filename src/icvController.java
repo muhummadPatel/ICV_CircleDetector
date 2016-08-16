@@ -49,12 +49,7 @@ public class icvController{
         }
     }
 
-    public static void handle_detectEdgesButton(Main parent) {
-        if (originalImage == null) {
-            JOptionPane.showMessageDialog(null, "Please open an image before trying to detect edges.");
-            return;
-        }
-
+    public static void handle_detectEdges(Main parent) {
         edgeImage = icvEdgeDetector.detectEdges(originalImage);
         JLabel imageLabel = new JLabel(new ImageIcon(edgeImage));
         parent.edgeImageTab.getViewport().removeAll();
@@ -65,12 +60,7 @@ public class icvController{
         System.out.println("Done");
     }
 
-    public static void handle_detectCirclesButton(Main parent) {
-        if (originalImage == null || edgeImage == null) {
-            JOptionPane.showMessageDialog(null, "Please open an image and detect edges before trying to detect circles.");
-            return;
-        }
-
+    public static void handle_detectCircles(Main parent) {
         circleImage = icvFeatureDetector.detectCircles(edgeImage, originalImage);
         JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
         parent.circlesImageTab.getViewport().removeAll();

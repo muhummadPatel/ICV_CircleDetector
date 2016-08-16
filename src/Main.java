@@ -16,8 +16,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main implements ActionListener {
 
-    JButton detectEdgesButton;
-    JButton detectCirclesButton;
     JFrame frame;
     JButton openButton;
     JPanel rootPanel;
@@ -71,14 +69,6 @@ public class Main implements ActionListener {
         openButton.addActionListener(this);
         controlPanel.add(openButton);
 
-        detectEdgesButton = new JButton("Detect Edges");
-        detectEdgesButton.addActionListener(this);
-        controlPanel.add(detectEdgesButton);
-
-        detectCirclesButton = new JButton("Detect Circles");
-        detectCirclesButton.addActionListener(this);
-        controlPanel.add(detectCirclesButton);
-
         rootPanel.add(controlPanel, BorderLayout.LINE_START);
 
 
@@ -95,10 +85,9 @@ public class Main implements ActionListener {
 
         if (e.getSource() == openButton) {
             icvController.handle_openItem(this);
-        } else if (e.getSource() == detectEdgesButton) {
-            icvController.handle_detectEdgesButton(this);
-        } else if (e.getSource() == detectCirclesButton) {
-            icvController.handle_detectCirclesButton(this);
         }
+
+        icvController.handle_detectEdges(this);
+        icvController.handle_detectCircles(this);
     }
 }
