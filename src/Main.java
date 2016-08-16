@@ -19,9 +19,7 @@ public class Main implements ActionListener {
     JButton detectEdgesButton;
     JButton detectCirclesButton;
     JFrame frame;
-    JMenu fileMenu;
-    JMenuBar menuBar;
-    JMenuItem openItem;
+    JButton openButton;
     JPanel rootPanel;
     JPanel controlPanel;
     JScrollPane originalImageTab;
@@ -53,17 +51,6 @@ public class Main implements ActionListener {
         rootPanel = new JPanel(); //Add everything to this rootPanel
         rootPanel.setLayout(new BorderLayout());
 
-        //MenuBar=====
-        menuBar = new JMenuBar();
-        fileMenu = new JMenu("File");
-
-        openItem = new JMenuItem("Open Image");
-        openItem.addActionListener(this);
-
-        fileMenu.add(openItem);
-        menuBar.add(fileMenu);
-        frame.setJMenuBar(menuBar);
-
         //Tabbed Image Panel=====
         imagePanel = new JTabbedPane();
         rootPanel.add(imagePanel, BorderLayout.CENTER);
@@ -79,6 +66,10 @@ public class Main implements ActionListener {
         //Control Panel=====
         controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+
+        openButton = new JButton("Open Image");
+        openButton.addActionListener(this);
+        controlPanel.add(openButton);
 
         detectEdgesButton = new JButton("Detect Edges");
         detectEdgesButton.addActionListener(this);
@@ -102,7 +93,7 @@ public class Main implements ActionListener {
         String actionCommand = e.getActionCommand();
         System.out.println("Main:actionPerformed handling event with actionCommand=" + actionCommand);
 
-        if (e.getSource() == openItem) {
+        if (e.getSource() == openButton) {
             icvController.handle_openItem(this);
         } else if (e.getSource() == detectEdgesButton) {
             icvController.handle_detectEdgesButton(this);
