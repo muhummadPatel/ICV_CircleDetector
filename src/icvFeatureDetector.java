@@ -15,7 +15,6 @@ public class icvFeatureDetector {
         //Hough transform to find circles in the image.
         System.out.println("Detecting circles");
 
-        //TODO: this is being duplicated when we find the edges. Fix that.
         int[][] pixels = new int[img.getWidth()][img.getHeight()];
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
@@ -29,9 +28,9 @@ public class icvFeatureDetector {
             }
         }
 
-        int minRadius = 15;
-        int maxRadius = 200;
-        int radiusStep = 5;
+        int minRadius = icvConfig.HOUGH_MIN_RADIUS;
+        int maxRadius = icvConfig.HOUGH_MAX_RADIUS;
+        int radiusStep = icvConfig.HOUGH_RADIUS_STEP;
         int numRFrames = (maxRadius - minRadius) / radiusStep;
         int[][][] accumulator = new int[numRFrames][img.getWidth()][img.getHeight()];
 
@@ -48,13 +47,7 @@ public class icvFeatureDetector {
         }
 
         //TODO: Maybe run a gaussian filter here to kill noise
-        double[][] gaussian = {
-            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765},
-            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
-            {0.023792, 0.094907, 0.150342, 0.094907, 0.023792},
-            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
-            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765}
-        };
+        double[][] gaussian = icvConfig.GAUSSIAN_5;
         int[][][] smoothedAccum = new int[numRFrames][img.getWidth()][img.getHeight()];
         for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             for (int x = 0; x < img.getWidth(); x++) {
@@ -86,7 +79,7 @@ public class icvFeatureDetector {
         accumulator = smoothedAccum;
 
         ArrayList<Circle> circles = new ArrayList<>();
-        float thresh = 2.0f;
+        float thresh = icvConfig.HOUGH_CIRCLE_DETECTION_THRESHOLD;
         for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 for (int y = 0; y < img.getHeight(); y++) {
@@ -141,10 +134,10 @@ public class icvFeatureDetector {
             }
         }
 
-        // Collections.sort(circles);
-        // for (Circle c: circles) {
-        //     System.out.println(c);
-        // }
+        Collections.sort(circles);
+        for (Circle c: circles) {
+            System.out.println(c);
+        }
         System.out.println("CIRCLES FOUND:_____" + circles.size());
 
         for (int rIdx = 0; rIdx < numRFrames; rIdx++) {
@@ -172,14 +165,11 @@ public class icvFeatureDetector {
         //Draw circles onto a copy of img and return it.
         Collections.sort(circles);
         int[][] circleMatrix = new int[img.getWidth()][img.getHeight()];
-        for (int i = 0; i < Math.min(circles.size(), 20); i++) {
+        for (int i = 0; i < Math.min(circles.size(), icvConfig.HOUGH_MAX_EXPECTED_CIRCLES); i++) {
             Circle c = circles.get(i);
             drawCircle(c.x, c.y, c.radius, circleMatrix);
         }
         BufferedImage circleImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
-        // Graphics g = circleImage.getGraphics();
-        // g.drawImage(originalImage, 0, 0, null);
-        // g.dispose();
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
 

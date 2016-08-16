@@ -40,13 +40,7 @@ public class icvEdgeDetector {
 
         //gaussian smooth
         double[][] smoothedPixels = new double[img.getWidth()][img.getHeight()];
-        double[][] gaussian = {
-            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765},
-            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
-            {0.023792, 0.094907, 0.150342, 0.094907, 0.023792},
-            {0.015019, 0.059912, 0.094907, 0.059912, 0.015019},
-            {0.003765, 0.015019, 0.023792, 0.015019, 0.003765}
-        };
+        double[][] gaussian = icvConfig.GAUSSIAN_5;
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
 
@@ -123,7 +117,7 @@ public class icvEdgeDetector {
 
         //Generate the edgeImage
         BufferedImage edgeImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
-        int threshold = 200; //TODO: get this value from the UI (slider maybe)
+        int threshold = icvConfig.SOBEL_EDGE_DETECTION_THRESHOLD;
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
 
