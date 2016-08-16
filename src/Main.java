@@ -46,7 +46,7 @@ public class Main implements ActionListener {
         //Frame setup with root panel=====
         frame = new JFrame("Circle Detector");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(60, 40));
+        frame.setMinimumSize(new Dimension(800, 600));
 
         rootPanel = new JPanel(); //Add everything to this rootPanel
         rootPanel.setLayout(new BorderLayout());
