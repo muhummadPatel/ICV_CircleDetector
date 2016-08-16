@@ -40,11 +40,10 @@ public class icvController{
             }
 
             JLabel imageLabel = new JLabel(imageIcon);
-            parent.originalImageTab.removeAll();
-            parent.originalImageTab.add(imageLabel);
+            parent.originalImageTab.getViewport().removeAll();
+            parent.originalImageTab.getViewport().add(imageLabel);
             parent.originalImageTab.revalidate();
             parent.imagePanel.revalidate();
-            parent.frame.pack();
 
             System.out.println("Done");
         }
@@ -58,11 +57,10 @@ public class icvController{
 
         edgeImage = icvEdgeDetector.detectEdges(originalImage);
         JLabel imageLabel = new JLabel(new ImageIcon(edgeImage));
-        parent.edgeImageTab.removeAll();
-        parent.edgeImageTab.add(imageLabel);
+        parent.edgeImageTab.getViewport().removeAll();
+        parent.edgeImageTab.getViewport().add(imageLabel);
         parent.edgeImageTab.revalidate();
         parent.imagePanel.revalidate();
-        parent.frame.pack();
 
         System.out.println("Done");
     }
@@ -73,13 +71,12 @@ public class icvController{
             return;
         }
 
-        circleImage = icvFeatureDetector.detectCircles(edgeImage);
-        // JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
-        // parent.circlesImageTab.removeAll();
-        // parent.circlesImageTab.add(imageLabel);
-        // parent.circlesImageTab.revalidate();
-        // parent.imagePanel.revalidate();
-        // parent.frame.pack();
+        circleImage = icvFeatureDetector.detectCircles(edgeImage, originalImage);
+        JLabel imageLabel = new JLabel(new ImageIcon(circleImage));
+        parent.circlesImageTab.getViewport().removeAll();
+        parent.circlesImageTab.getViewport().add(imageLabel);
+        parent.circlesImageTab.revalidate();
+        parent.imagePanel.revalidate();
 
         System.out.println("Done");
     }
