@@ -24,9 +24,9 @@ public class Main implements ActionListener {
     JMenuItem openItem;
     JPanel rootPanel;
     JPanel controlPanel;
-    JPanel originalImageTab;
-    JPanel edgeImageTab;
-    JPanel circlesImageTab;
+    JScrollPane originalImageTab;
+    JScrollPane edgeImageTab;
+    JScrollPane circlesImageTab;
     JTabbedPane imagePanel;
 
     public Main() {
@@ -67,9 +67,9 @@ public class Main implements ActionListener {
         //Tabbed Image Panel=====
         imagePanel = new JTabbedPane();
         rootPanel.add(imagePanel, BorderLayout.CENTER);
-        originalImageTab = new JPanel();
-        edgeImageTab = new JPanel();
-        circlesImageTab = new JPanel();
+        originalImageTab = new JScrollPane();
+        edgeImageTab = new JScrollPane();
+        circlesImageTab = new JScrollPane();
 
         imagePanel.addTab("Original Image", originalImageTab);
         imagePanel.addTab("Detected Edges", edgeImageTab);
