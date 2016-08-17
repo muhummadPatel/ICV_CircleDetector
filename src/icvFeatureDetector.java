@@ -193,7 +193,7 @@ public class icvFeatureDetector {
                 if (colour < 0) { colour = 0; }
 
                 if (colour > 0) {
-                    circleImage.setRGB(x, y, (new Color(1.0f, 0.0f, 0.0f)).getRGB());
+                    circleImage.setRGB(x, y, (new Color(1.0f, 0.0f, 1.0f)).getRGB());
                 } else {
                     circleImage.setRGB(x, y, originalImage.getRGB(x, y));
                 }
