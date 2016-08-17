@@ -20,10 +20,12 @@ public class Main implements ActionListener {
 
     JFrame frame;
     JButton openButton;
+    JButton saveCirclesImageButton;
     JPanel rootPanel;
     JPanel controlPanel;
     JScrollPane originalImageTab;
     JScrollPane edgeImageTab;
+    JPanel circlesImagePanel;
     JScrollPane circlesImageTab;
     JTabbedPane imagePanel;
 
@@ -58,9 +60,17 @@ public class Main implements ActionListener {
         edgeImageTab = new JScrollPane();
         circlesImageTab = new JScrollPane();
 
+        circlesImagePanel = new JPanel();
+        circlesImagePanel.setLayout(new BoxLayout(circlesImagePanel, BoxLayout.Y_AXIS));
+        circlesImagePanel.add(circlesImageTab);
+
+        saveCirclesImageButton = new JButton("Save Image (as circlesImage.png)");
+        saveCirclesImageButton.addActionListener(this);
+        circlesImagePanel.add(saveCirclesImageButton);
+
         imagePanel.addTab("Original Image", originalImageTab);
         imagePanel.addTab("Detected Edges", edgeImageTab);
-        imagePanel.addTab("Detected Circles", circlesImageTab);
+        imagePanel.addTab("Detected Circles", circlesImagePanel);
 
         //Control Panel=====
         controlPanel = new JPanel();
@@ -86,9 +96,10 @@ public class Main implements ActionListener {
 
         if (e.getSource() == openButton) {
             icvController.handle_openItem(this);
+            icvController.handle_detectEdges(this);
+            icvController.handle_detectCircles(this);
+        } else if (e.getSource() == saveCirclesImageButton) {
+            icvController.handle_saveCirclesImageButton(this);
         }
-
-        icvController.handle_detectEdges(this);
-        icvController.handle_detectCircles(this);
     }
 }

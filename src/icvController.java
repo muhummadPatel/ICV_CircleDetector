@@ -1,7 +1,7 @@
 package src;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -88,5 +88,23 @@ public class icvController{
         parent.imagePanel.revalidate();
 
         System.out.println("Done");
+    }
+
+    /*
+     * Save the circlesImage as circlesImage.png.
+     */
+    public static void handle_saveCirclesImageButton(Main parent) {
+        if (circleImage == null) {
+            JOptionPane.showMessageDialog(null, "Please open an image first.");
+            return;
+        }
+
+        try {
+            File outputfile = new File("circlesImage.png");
+            ImageIO.write(circleImage, "png", outputfile);
+            JOptionPane.showMessageDialog(null, "Saved as circlesImage.png");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error, could not save image.");
+        }
     }
 }
