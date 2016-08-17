@@ -4,6 +4,18 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * Main - Sets up and displays the GUI for this program. It allows the user to
+ * select and open an image file from their computer and detects the edges and
+ * circles present in that image. The user can open a file using the 'open file'
+ * button. When a user opens a file, the program automatically finds the edges
+ * and detects the circles present in that image. The original image, edge
+ * image, and detected circles image are then displayed in the appropriate tabs
+ * in the GUI.
+ *
+ * Muhummad Patel ptlmuh006
+ * Aug 2016
+ */
 public class Main implements ActionListener {
 
     JFrame frame;
