@@ -1,18 +1,8 @@
 package src;
 
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.imageio.ImageIO;
+import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main implements ActionListener {
 

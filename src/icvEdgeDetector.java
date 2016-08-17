@@ -1,9 +1,8 @@
 package src;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.color.ColorSpace;
 import java.awt.Color;
+import java.awt.color.ColorSpace;
+import java.awt.image.*;
 
 public class icvEdgeDetector {
 
