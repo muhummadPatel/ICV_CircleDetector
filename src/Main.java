@@ -44,7 +44,7 @@ public class Main implements ActionListener {
         //Frame setup with root panel=====
         frame = new JFrame("Circle Detector");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension(600, 600));
 
         rootPanel = new JPanel(); //Add everything to this rootPanel
         rootPanel.setLayout(new BorderLayout());
@@ -59,7 +59,6 @@ public class Main implements ActionListener {
         imagePanel.addTab("Original Image", originalImageTab);
         imagePanel.addTab("Detected Edges", edgeImageTab);
         imagePanel.addTab("Detected Circles", circlesImageTab);
-
 
         //Control Panel=====
         controlPanel = new JPanel();
