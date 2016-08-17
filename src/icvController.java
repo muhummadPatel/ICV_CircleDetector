@@ -45,6 +45,8 @@ public class icvController{
             parent.originalImageTab.revalidate();
             parent.imagePanel.revalidate();
 
+            parent.frame.setTitle("Circle Detector - " + filename);
+
             System.out.println("Done");
         }
     }
